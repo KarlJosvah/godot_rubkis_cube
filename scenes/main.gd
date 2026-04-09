@@ -134,7 +134,25 @@ func cube_input() -> void:
 			self.rubik_s_cube.move_M_p()
 		else:
 			self.rubik_s_cube.move_M()
-			
+
+	if Input.is_action_just_pressed("move_E"):
+		if Input.is_action_pressed("move_prime"):
+			self.rubik_s_cube.move_E_p()
+		else:
+			self.rubik_s_cube.move_E()
+
+	if Input.is_action_just_pressed("move_S"):
+		if Input.is_action_pressed("move_prime"):
+			self.rubik_s_cube.move_S_p()
+		else:
+			self.rubik_s_cube.move_S()
+
+	if Input.is_action_just_pressed("move_x"):
+		if Input.is_action_pressed("move_prime"):
+			self.rubik_s_cube.move_x_p()
+		else:
+			self.rubik_s_cube.move_x()
+
 	if Input.is_action_just_pressed("ui_undo"):
 		self.rubik_s_cube.undo()
 		

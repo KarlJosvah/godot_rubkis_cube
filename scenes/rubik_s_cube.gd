@@ -9,7 +9,7 @@ var is_rotating := false
 var _move_history: Array[Dictionary] = []
 var _is_recording_history: bool = true
 
-func _rotate_layer(face_normal: Vector3, angle: float, include_middle: bool = false, only_middle: bool = false) -> void:
+func _rotate_layer(face_normal: Vector3, angle: float, include_middle: bool = false, only_middle: bool = false, whole_cube: bool = false) -> void:
 	if is_rotating:
 		return
 	is_rotating = true
@@ -20,7 +20,8 @@ func _rotate_layer(face_normal: Vector3, angle: float, include_middle: bool = fa
 			"face_normal": face_normal,
 			"angle": angle,
 			"include_middle": include_middle,
-			"only_middle": only_middle
+			"only_middle": only_middle,
+			"whole_cube": whole_cube
 		})
 
 	
@@ -54,6 +55,9 @@ func _rotate_layer(face_normal: Vector3, angle: float, include_middle: bool = fa
 					is_match = global_val > 0.1
 				else: 
 					is_match = global_val < -0.1
+				
+			if whole_cube:
+				is_match = true
 				
 			if is_match:
 				pieces.append(child)
@@ -130,7 +134,8 @@ func undo() -> void:
 		last_move.face_normal, 
 		-last_move.angle, 
 		last_move.include_middle, 
-		last_move.only_middle
+		last_move.only_middle,
+		last_move.get("whole_cube", false)
 	)
 	_is_recording_history = true
 
@@ -215,3 +220,28 @@ func move_M() -> void:
 func move_M_p() -> void:
 	var normal := _get_camera_relative_normal(-camera_pivot.global_transform.basis.x)
 	await _rotate_layer(normal, PI / 2.0, false, true)
+
+func move_E() -> void:
+	# E follows D's direction
+	await _rotate_layer(Vector3.DOWN, -PI / 2.0, false, true)
+
+func move_E_p() -> void:
+	await _rotate_layer(Vector3.DOWN, PI / 2.0, false, true)
+
+func move_S() -> void:
+	# S follows F's direction
+	var normal := _get_camera_relative_normal(camera_pivot.global_transform.basis.z)
+	await _rotate_layer(normal, -PI / 2.0, false, true)
+
+func move_S_p() -> void:
+	var normal := _get_camera_relative_normal(camera_pivot.global_transform.basis.z)
+	await _rotate_layer(normal, PI / 2.0, false, true)
+
+func move_x() -> void:
+	# x follows R's direction
+	var normal := _get_camera_relative_normal(camera_pivot.global_transform.basis.x)
+	await _rotate_layer(normal, -PI / 2.0, false, false, true)
+
+func move_x_p() -> void:
+	var normal := _get_camera_relative_normal(camera_pivot.global_transform.basis.x)
+	await _rotate_layer(normal, PI / 2.0, false, false, true)
