@@ -1,0 +1,25 @@
+# Godot 4+ specific ignores
+.godot/
+
+# Godot 3.x specific ignores (deprecated for Godot 4)
+.import/
+
+# Files generated on export
+export.cfg
+export_presets.cfg
+
+# Imported translations (automatically generated from CSV files)
+*.translation
+
+# Temporary files, often from file saving/renaming issues (especially on Windows)
+# It's generally safe to ignore these.
+*.tmp
+
+# Files used by Mono/C# projects (if you're using Godot Mono)
+.mono/
+data_*/
+mono_crash.*.json
+
+# Common operating system files (generally good to include)
+.DS_Store # macOS
+Thumbs.db # Windows

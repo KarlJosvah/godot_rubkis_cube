@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://dr4dr4vm3sh7k"]
+
+[ext_resource type="PackedScene" uid="uid://uxe8qxtqu4k5" path="res://scenes/rubik_s_cube.tscn" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://yttrxqmg01h4" path="res://scenes/main.gd" id="1_sugp2"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_0wfyh"]
+
+[sub_resource type="Sky" id="Sky_sugp2"]
+sky_material = SubResource("PhysicalSkyMaterial_0wfyh")
+
+[sub_resource type="Environment" id="Environment_sugp2"]
+background_mode = 2
+sky = SubResource("Sky_sugp2")
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_o5qli"]
+radius = 0.2
+
+[node name="Main" type="Node3D" unique_id=942121455]
+script = ExtResource("1_sugp2")
+
+[node name="Setup" type="Node3D" parent="." unique_id=1798628047]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Setup" unique_id=1016019680]
+environment = SubResource("Environment_sugp2")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Setup" unique_id=817549512]
+light_color = Color(0.19434929, 0.19434926, 0.19434926, 1)
+omni_range = 0.4274892
+
+[node name="Camera_Pivot" type="Node3D" parent="." unique_id=716451637]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Camera_Pivot" unique_id=719210965]
+shape = SubResource("SphereShape3D_o5qli")
+spring_length = 4.0
+
+[node name="Camera3D" type="Camera3D" parent="Camera_Pivot/SpringArm3D" unique_id=399867588]
+current = true
+
+[node name="rubik_s_cube" parent="." unique_id=1993629171 instance=ExtResource("1_o5qli")]

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cf2igu5l1p7uj"]
+
+[ext_resource type="AudioStream" uid="uid://fy3eepai0wmk" path="res://assets/music/Zambolino - Blue Skies.mp3" id="1_jmj06"]
+
+[node name="BGM" type="AudioStreamPlayer" unique_id=852564148]
+stream = ExtResource("1_jmj06")
+autoplay = true
