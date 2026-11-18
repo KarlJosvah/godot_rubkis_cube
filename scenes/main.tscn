@@ -2,6 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://uxe8qxtqu4k5" path="res://scenes/rubik_s_cube.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://yttrxqmg01h4" path="res://scenes/main.gd" id="1_sugp2"]
+[ext_resource type="Script" path="res://scenes/profiles/dual_hand_profile.gd" id="3_dual"]
+[ext_resource type="Script" path="res://scenes/profiles/classic_profile.gd" id="4_classic"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_0wfyh"]
 
@@ -39,3 +41,22 @@ spring_length = 4.0
 current = true
 
 [node name="rubik_s_cube" parent="." unique_id=1993629171 instance=ExtResource("1_o5qli")]
+
+[node name="InputProfiles" type="Node" parent="."]
+
+[node name="DualHandProfile" type="Node" parent="InputProfiles"]
+script = ExtResource("3_dual")
+
+[node name="ClassicProfile" type="Node" parent="InputProfiles"]
+process_mode = 4
+script = ExtResource("4_classic")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="ProfileLabel" type="Label" parent="HUD"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 400.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 18
+text = "Profile: Dual-Hand (WASD + OKL;) [F1 to switch]"

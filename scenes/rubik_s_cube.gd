@@ -245,3 +245,19 @@ func move_x() -> void:
 func move_x_p() -> void:
 	var normal := _get_camera_relative_normal(camera_pivot.global_transform.basis.x)
 	await _rotate_layer(normal, PI / 2.0, false, false, true)
+
+func move_y() -> void:
+	# y follows U's direction
+	await _rotate_layer(Vector3.UP, -PI / 2.0, false, false, true)
+
+func move_y_p() -> void:
+	await _rotate_layer(Vector3.UP, PI / 2.0, false, false, true)
+
+func move_z() -> void:
+	# z follows F's direction
+	var normal := _get_camera_relative_normal(camera_pivot.global_transform.basis.z)
+	await _rotate_layer(normal, -PI / 2.0, false, false, true)
+
+func move_z_p() -> void:
+	var normal := _get_camera_relative_normal(camera_pivot.global_transform.basis.z)
+	await _rotate_layer(normal, PI / 2.0, false, false, true)
