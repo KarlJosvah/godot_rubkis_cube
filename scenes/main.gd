@@ -11,9 +11,14 @@ extends Node3D;
 @export var zoom_min := 1.0;
 @export var zoom_max := 6.0;
 
-@export_subgroup("Inversion")
-@export var invert_horizontal := false;
-@export var invert_vertical := true;
+@export_group("Inversion")
+@export_subgroup("Mouse")
+@export var invert_mouse_horizontal := false;
+@export var invert_mouse_vertical := true;
+
+@export_subgroup("Keyboard")
+@export var invert_keyboard_horizontal := true;
+@export var invert_keyboard_vertical := true;
 
 var camera_input_direction := Vector2.ZERO;
 var snap_tween: Tween;
@@ -52,14 +57,17 @@ func handle_arrow_snap(event: InputEvent) -> void:
 
 	var key_event := event as InputEventKey;
 	var key: Key = key_event.physical_keycode if key_event.physical_keycode != KEY_NONE else key_event.keycode;
+	var h_step := PI / 2.0 if invert_keyboard_horizontal else -PI / 2.0;
+	var v_step := PI / 2.0 if invert_keyboard_vertical else -PI / 2.0;
+
 	if key == KEY_LEFT:
-		self.snap_camera(-PI / 2.0, 0.0);
+		self.snap_camera(h_step, 0.0);
 	elif key == KEY_RIGHT:
-		self.snap_camera(PI / 2.0, 0.0);
+		self.snap_camera(-h_step, 0.0);
 	elif key == KEY_UP:
-		self.snap_camera(0.0, -PI / 2.0);
+		self.snap_camera(0.0, v_step);
 	elif key == KEY_DOWN:
-		self.snap_camera(0.0, PI / 2.0);
+		self.snap_camera(0.0, -v_step);
 
 func snap_camera(delta_y: float, delta_x: float) -> void:
 	if snap_tween and snap_tween.is_running():
@@ -79,23 +87,25 @@ func handle_continuous_orbit(delta: float) -> void:
 
 	var orbit_dir := Vector2.ZERO;
 	# Shift + WASD
-	if Input.is_key_pressed(KEY_D): orbit_dir.x -= 1.0;
-	if Input.is_key_pressed(KEY_A): orbit_dir.x += 1.0;
-	if Input.is_key_pressed(KEY_S): orbit_dir.y -= 1.0;
-	if Input.is_key_pressed(KEY_W): orbit_dir.y += 1.0;
+	if Input.is_key_pressed(KEY_A): orbit_dir.x -= 1.0;
+	if Input.is_key_pressed(KEY_D): orbit_dir.x += 1.0;
+	if Input.is_key_pressed(KEY_W): orbit_dir.y -= 1.0;
+	if Input.is_key_pressed(KEY_S): orbit_dir.y += 1.0;
 
 	# Shift + Arrow Keys
-	if Input.is_key_pressed(KEY_RIGHT): orbit_dir.x -= 1.0;
-	if Input.is_key_pressed(KEY_LEFT): orbit_dir.x += 1.0;
-	if Input.is_key_pressed(KEY_DOWN): orbit_dir.y -= 1.0;
-	if Input.is_key_pressed(KEY_UP): orbit_dir.y += 1.0;
+	if Input.is_key_pressed(KEY_LEFT): orbit_dir.x -= 1.0;
+	if Input.is_key_pressed(KEY_RIGHT): orbit_dir.x += 1.0;
+	if Input.is_key_pressed(KEY_UP): orbit_dir.y -= 1.0;
+	if Input.is_key_pressed(KEY_DOWN): orbit_dir.y += 1.0;
 
 	if orbit_dir != Vector2.ZERO:
 		if snap_tween and snap_tween.is_running():
 			snap_tween.kill();
 		orbit_dir = orbit_dir.normalized();
-		self.camera_pivot.rotation.y += orbit_dir.x * self.orbit_keyboard_speed * delta;
-		self.camera_pivot.rotation.x += orbit_dir.y * self.orbit_keyboard_speed * delta;
+		var h_factor := -1.0 if invert_keyboard_horizontal else 1.0;
+		var v_factor := -1.0 if invert_keyboard_vertical else 1.0;
+		self.camera_pivot.rotation.y += orbit_dir.x * self.orbit_keyboard_speed * delta * h_factor;
+		self.camera_pivot.rotation.x += orbit_dir.y * self.orbit_keyboard_speed * delta * v_factor;
 		self.camera_pivot.rotation.x = clamp(self.camera_pivot.rotation.x, -PI / 2.0, PI / 2.0);
 
 func catch_camera_rotation(event: InputEvent) -> void:
@@ -109,11 +119,11 @@ func catch_camera_rotation(event: InputEvent) -> void:
 
 func rotate_camera(delta: float) -> void:
 	# Handle Horizontal Rotation (Y-axis)
-	var horizontal_factor := -1.0 if not invert_horizontal else 1.0;
+	var horizontal_factor := -1.0 if not invert_mouse_horizontal else 1.0;
 	self.camera_pivot.rotation.y += self.camera_input_direction.x * delta * horizontal_factor;
 	
 	# Handle Vertical Rotation (X-axis)
-	var vertical_factor := 1.0 if not invert_vertical else -1.0;
+	var vertical_factor := 1.0 if not invert_mouse_vertical else -1.0;
 	self.camera_pivot.rotation.x += self.camera_input_direction.y * delta * vertical_factor;
 	self.camera_pivot.rotation.x = clamp(self.camera_pivot.rotation.x, -PI / 2.0, PI / 2.0);
 	
