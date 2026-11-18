@@ -69,95 +69,88 @@ func zoom(direction: int) -> void:
 # ----------[ CUBE ]----------------------------------------------------------------------
 
 func cube_input() -> void:
+	var is_small := Input.is_action_pressed("move_small") or Input.is_key_pressed(KEY_CTRL)
+
+	# U / U' (O / W)
 	if Input.is_action_just_pressed("move_U"):
-		if Input.is_action_pressed("move_prime"):
-			if Input.is_action_pressed("move_small"):
-				self.rubik_s_cube.move_U_sp()
-			else:
-				self.rubik_s_cube.move_U_p()
-		elif Input.is_action_pressed("move_small"):
-			self.rubik_s_cube.move_U_s()
+		if is_small: self.rubik_s_cube.move_U_s()
 		else: self.rubik_s_cube.move_U()
-	
+	if Input.is_action_just_pressed("move_U_p"):
+		if is_small: self.rubik_s_cube.move_U_sp()
+		else: self.rubik_s_cube.move_U_p()
+
+	# D / D' (S / L)
 	if Input.is_action_just_pressed("move_D"):
-		if Input.is_action_pressed("move_prime"):
-			if Input.is_action_pressed("move_small"):
-				self.rubik_s_cube.move_D_sp()
-			else:
-				self.rubik_s_cube.move_D_p()
-		elif Input.is_action_pressed("move_small"):
-			self.rubik_s_cube.move_D_s()
+		if is_small: self.rubik_s_cube.move_D_s()
 		else: self.rubik_s_cube.move_D()
-	
+	if Input.is_action_just_pressed("move_D_p"):
+		if is_small: self.rubik_s_cube.move_D_sp()
+		else: self.rubik_s_cube.move_D_p()
+
+	# R / R' (P / ;)
 	if Input.is_action_just_pressed("move_R"):
-		if Input.is_action_pressed("move_prime"):
-			if Input.is_action_pressed("move_small"):
-				self.rubik_s_cube.move_R_sp()
-			else:
-				self.rubik_s_cube.move_R_p()
-		elif Input.is_action_pressed("move_small"):
-			self.rubik_s_cube.move_R_s()
+		if is_small: self.rubik_s_cube.move_R_s()
 		else: self.rubik_s_cube.move_R()
-	
+	if Input.is_action_just_pressed("move_R_p"):
+		if is_small: self.rubik_s_cube.move_R_sp()
+		else: self.rubik_s_cube.move_R_p()
+
+	# L / L' (A / Q)
 	if Input.is_action_just_pressed("move_L"):
-		if Input.is_action_pressed("move_prime"):
-			if Input.is_action_pressed("move_small"):
-				self.rubik_s_cube.move_L_sp()
-			else:
-				self.rubik_s_cube.move_L_p()
-		elif Input.is_action_pressed("move_small"):
-			self.rubik_s_cube.move_L_s()
+		if is_small: self.rubik_s_cube.move_L_s()
 		else: self.rubik_s_cube.move_L()
-	
+	if Input.is_action_just_pressed("move_L_p"):
+		if is_small: self.rubik_s_cube.move_L_sp()
+		else: self.rubik_s_cube.move_L_p()
+
+	# F / F' (K / D)
 	if Input.is_action_just_pressed("move_F"):
-		if Input.is_action_pressed("move_prime"):
-			if Input.is_action_pressed("move_small"):
-				self.rubik_s_cube.move_F_sp()
-			else:
-				self.rubik_s_cube.move_F_p()
-		elif Input.is_action_pressed("move_small"):
-			self.rubik_s_cube.move_F_s()
+		if is_small: self.rubik_s_cube.move_F_s()
 		else: self.rubik_s_cube.move_F()
-	
+	if Input.is_action_just_pressed("move_F_p"):
+		if is_small: self.rubik_s_cube.move_F_sp()
+		else: self.rubik_s_cube.move_F_p()
+
+	# B / B' (E / I)
 	if Input.is_action_just_pressed("move_B"):
-		if Input.is_action_pressed("move_prime"):
-			if Input.is_action_pressed("move_small"):
-				self.rubik_s_cube.move_B_sp()
-			else:
-				self.rubik_s_cube.move_B_p()
-		elif Input.is_action_pressed("move_small"):
-			self.rubik_s_cube.move_B_s()
+		if is_small: self.rubik_s_cube.move_B_s()
 		else: self.rubik_s_cube.move_B()
-		
+	if Input.is_action_just_pressed("move_B_p"):
+		if is_small: self.rubik_s_cube.move_B_sp()
+		else: self.rubik_s_cube.move_B_p()
+
+	# Slices & Rotations (no small moves)
+	# M / M' (F / J)
 	if Input.is_action_just_pressed("move_M"):
-		if Input.is_action_pressed("move_prime"):
-			self.rubik_s_cube.move_M_p()
-		else:
-			self.rubik_s_cube.move_M()
+		self.rubik_s_cube.move_M()
+	if Input.is_action_just_pressed("move_M_p"):
+		self.rubik_s_cube.move_M_p()
 
+	# E / E' (V / N)
 	if Input.is_action_just_pressed("move_E"):
-		if Input.is_action_pressed("move_prime"):
-			self.rubik_s_cube.move_E_p()
-		else:
-			self.rubik_s_cube.move_E()
+		self.rubik_s_cube.move_E()
+	if Input.is_action_just_pressed("move_E_p"):
+		self.rubik_s_cube.move_E_p()
 
+	# S / S' (M / C)
 	if Input.is_action_just_pressed("move_S"):
-		if Input.is_action_pressed("move_prime"):
-			self.rubik_s_cube.move_S_p()
-		else:
-			self.rubik_s_cube.move_S()
+		self.rubik_s_cube.move_S()
+	if Input.is_action_just_pressed("move_S_p"):
+		self.rubik_s_cube.move_S_p()
 
+	# x / x' (U / R)
 	if Input.is_action_just_pressed("move_x"):
-		if Input.is_action_pressed("move_prime"):
-			self.rubik_s_cube.move_x_p()
-		else:
-			self.rubik_s_cube.move_x()
+		self.rubik_s_cube.move_x()
+	if Input.is_action_just_pressed("move_x_p"):
+		self.rubik_s_cube.move_x_p()
 
-	if Input.is_action_just_pressed("ui_undo"):
+	# Undo (Ctrl+Z)
+	if Input.is_action_just_pressed("undo") or Input.is_action_just_pressed("ui_undo"):
 		self.rubik_s_cube.undo()
-		
-	if Input.is_action_just_pressed("ui_accept"):
-		if Input.is_action_pressed("move_prime"):
+
+	# Scramble (Space)
+	if Input.is_action_just_pressed("scramble") or Input.is_action_just_pressed("ui_accept"):
+		if is_small:
 			self.rubik_s_cube.scramble(true)
 		else:
 			self.rubik_s_cube.scramble()
